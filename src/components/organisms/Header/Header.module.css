@@ -1,0 +1,50 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 2rem;
+    padding-block: 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.12);
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    a {
+        text-decoration: none;
+        color: black;
+        font-size: 1.2rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 50%;
+        height: 2px;
+        background: #007bff;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 1;
+    }
+
+    a.active::after {
+        transform: scaleX(1);
+    }
+
+    a:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+}
+
+.headerInput {
+    padding-block: 4px;
+}

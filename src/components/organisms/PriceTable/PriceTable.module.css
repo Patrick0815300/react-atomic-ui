@@ -1,0 +1,28 @@
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    margin: 64px;
+
+    .head {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        align-items: center;
+    }
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 64px;
+    width: 450px;
+}
+
+.features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}

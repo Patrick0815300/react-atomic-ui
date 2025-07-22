@@ -1,0 +1,33 @@
+section {
+    margin: 64px;
+}
+
+span {
+    color: gray;
+}
+
+.reviewContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 64px;
+}
+
+.customer {
+    display: flex;
+    gap: 16px;
+}
+
+.stars {
+    margin-block: 16px;
+    display: flex;
+    gap: 3px;
+}
+
+.pictureCustomer,
+.imageCustomer {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 99999px;
+}

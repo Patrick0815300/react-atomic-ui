@@ -1,0 +1,8 @@
+section {
+    max-height: 200px;
+    height: 200px;
+
+    img {
+        max-height: 300px;
+    }
+}

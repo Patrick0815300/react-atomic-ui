@@ -1,0 +1,47 @@
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+footer {
+    display: flex;
+    gap: 48px;
+    flex-direction: column;
+    background-color: lightgray;
+    padding: 64px;
+    box-shadow: 0 -4px 12px -4px rgba(0, 0, 0, 0.18);
+}
+
+.informationContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.navigationList,
+.legal {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.socials {
+    display: flex;
+    gap: 8px;
+    font-size: 18px;
+}
+
+.bottomLine {
+    border-top: 1px solid rgba(0, 0, 0, 0.18);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}
