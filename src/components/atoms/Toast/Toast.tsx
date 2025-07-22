@@ -5,7 +5,7 @@ type OwnToastProps = {
     headerTitle: string;
     bodyMessage: string;
     headerProps?: React.HTMLAttributes<HTMLDivElement>;
-    bodyProps?: React.HTMLAttributes<HTMLDivElement>;
+    bodyProps?: React.HTMLAttributes<HTMLDivElement> & { [key: `data-${string}`]: string };
 } & Partial<ToastProps>;
 
 const OwnToast = ({
