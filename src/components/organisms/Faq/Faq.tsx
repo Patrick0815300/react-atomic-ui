@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button } from '../../atoms'
 import AccordionMolecule from '../../atoms/Accordion/Accordion'
 import { SearchBar } from '../../moleculess'
