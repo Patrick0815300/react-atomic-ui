@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Picture } from '../../atoms'
 import styles from './AboutSection.module.css'
 
