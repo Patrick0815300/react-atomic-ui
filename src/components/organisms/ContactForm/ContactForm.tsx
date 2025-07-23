@@ -1,10 +1,11 @@
-import React from 'react';
-import { useState } from 'react'
+import React, { useState, useRef } from 'react'
+import emailjs from '@emailjs/browser';
 import { FormField } from '../../moleculess'
 import { Button, Label, Card, OwnToast } from '../../atoms'
 import { ToastContainer } from 'react-bootstrap'
 import inputStyles from '../../atoms/Input/Input.module.css'
 import './ContactForm.modules.css'
+import { sendEmail } from '../../../utils/sendEmail';
 
 
 export function ContactForm() {
@@ -16,7 +17,14 @@ export function ContactForm() {
 
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false)
-    const handleClose = () => setShowSuccess(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [disabled, setDisabled] = useState(false)
+    const handleCloseSuccess = () => setShowSuccess(false);
+    const handleCloseError = () => setShowError(false);
+
+    const formRef = useRef<HTMLFormElement | null>(null);
+
+    const isTestEnvironment = () => process.env.NODE_ENV === 'test';
 
     const onInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const stateProp = event.target.name;
@@ -24,19 +32,20 @@ export function ContactForm() {
         setForm({ ...form, [stateProp]: value })
     }
 
-    const onSubmitChange = (event: React.FormEvent<HTMLFormElement>) => {
+    const onSubmitChange = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (validateEmail(form.mail) && validateName(form.name)) {
-            // Übergabe von "form" an das Backend
-            setForm({
-                name: '',
-                mail: '',
-                message: ''
-            })
-            setShowSuccess(true)
-        } else { setShowError(true) }
-        console.log(isTestEnvironment);
-
+        if (validateEmail(form.mail) && validateName(form.name) && formRef.current) {
+            setDisabled(true)
+            const result = await sendEmail(formRef.current);
+            if (result.success) {
+                setShowSuccess(true);
+                setForm({ name: '', mail: '', message: '' });
+                setDisabled(false)
+            } else {
+                setShowError(true);
+                setErrorMessage(result.error!);
+            }
+        }
     }
 
     const validateEmail = (email: string) => {
@@ -49,9 +58,6 @@ export function ContactForm() {
         return nameRegex.test(name)
     }
 
-    const isTestEnvironment = () => process.env.NODE_ENV === 'test';
-
-
     return (
         <>
             <ToastContainer position="top-end" className="p-3">
@@ -59,9 +65,9 @@ export function ContactForm() {
                     autohide
                     delay={3000}
                     show={showSuccess}
-                    onClose={handleClose}
+                    onClose={handleCloseSuccess}
                     headerTitle="Erfolgreich!"
-                    bodyMessage="Ihr Nachricht wurde erfolgreich verschickt"
+                    bodyMessage="Ihr Nachricht wurde erfolgreich verschickt."
                     headerProps={{ className: 'bg-success text-white', style: { fontSize: '1.2em' } }}
                     role="alert"
                     data-testid="success-toast"
@@ -70,9 +76,9 @@ export function ContactForm() {
                     autohide
                     delay={3000}
                     show={showError}
-                    onClose={handleClose}
-                    headerTitle="Error!"
-                    bodyMessage="Fehler beim Senden der Nachricht"
+                    onClose={handleCloseError}
+                    headerTitle="Fehler!"
+                    bodyMessage={errorMessage}
                     headerProps={{ className: 'bg-warning text-white', style: { fontSize: '1.2em' } }}
                     role="alert"
                     data-testid="error-toast"
@@ -82,7 +88,7 @@ export function ContactForm() {
 
             <div className='contact-form'>
                 <Card style={{ width: 'fit-content', minWidth: '500px' }}>
-                    <form onSubmit={onSubmitChange}>
+                    <form ref={formRef} onSubmit={onSubmitChange}>
                         <FormField
                             id="name"
                             label="Name:"
@@ -118,7 +124,7 @@ export function ContactForm() {
                                 autoComplete='off'
                             />
                         </div>
-                        <Button type="submit" style={{ marginTop: '16px' }}>Send</Button>
+                        <Button disabled={disabled} type="submit" style={{ marginTop: '16px' }}>Send</Button>
                     </form>
                 </Card>
             </div >

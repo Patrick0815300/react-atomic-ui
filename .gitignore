@@ -23,4 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
-# Api's in use: bootstrap, bootstrap-icons, date-fns, react-multi-carousel, react Testing Libary + Jest
+# Api's in use: bootstrap, bootstrap-icons, date-fns, react-multi-carousel, react Testing Libary + Jest, EMailJs
+
+# env
+.env.local
+.env.*.local
+.env
