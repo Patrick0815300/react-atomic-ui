@@ -1,30 +1,45 @@
-import React, { useState, useRef } from 'react'
-import emailjs from '@emailjs/browser';
+import React, { useState, useRef, useEffect } from 'react'
 import { FormField } from '../../moleculess'
 import { Button, Label, Card, OwnToast } from '../../atoms'
 import { ToastContainer } from 'react-bootstrap'
 import inputStyles from '../../atoms/Input/Input.module.css'
 import './ContactForm.modules.css'
-import { sendEmail } from '../../../utils/sendEmail';
 
+
+type ContactForm = {
+    name: string;
+    email: string;
+    message: string;
+};
 
 export function ContactForm() {
     const [form, setForm] = useState({
         name: '',
-        mail: '',
+        email: '',
         message: ''
     })
-
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('');
-    const [disabled, setDisabled] = useState(false)
+    const [disabled, setDisabled] = useState(true)
+    const [agreed, setAgreed] = useState(false);
     const handleCloseSuccess = () => setShowSuccess(false);
     const handleCloseError = () => setShowError(false);
 
     const formRef = useRef<HTMLFormElement | null>(null);
 
     const isTestEnvironment = () => process.env.NODE_ENV === 'test';
+    const endpoint = 'https://patrick-nigrin.dev/sendMail.php';
+
+    const handleButtonDisable = useEffect(() => {
+        if (validateEmail(form.email) && validateName(form.name)) {
+            setDisabled(false)
+        }
+    }, [form && agreed])
+
+    const onCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAgreed(e.target.checked);
+    };
 
     const onInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const stateProp = event.target.name;
@@ -32,19 +47,37 @@ export function ContactForm() {
         setForm({ ...form, [stateProp]: value })
     }
 
+    async function sendMail(payload: ContactForm): Promise<string> {
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.text();
+
+            if (!response.ok) {
+                setShowError(true);
+                throw new Error(data || 'Fehler beim Senden');
+            }
+            setDisabled(true)
+            setShowSuccess(true);
+            setForm({ name: '', email: '', message: '' });
+            setAgreed(false)
+            return data;
+        } catch (error) {
+            setErrorMessage(errorMessage);
+            throw error;
+        }
+    }
+
     const onSubmitChange = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (validateEmail(form.mail) && validateName(form.name) && formRef.current) {
-            setDisabled(true)
-            const result = await sendEmail(formRef.current);
-            if (result.success) {
-                setShowSuccess(true);
-                setForm({ name: '', mail: '', message: '' });
-                setDisabled(false)
-            } else {
-                setShowError(true);
-                setErrorMessage(result.error!);
-            }
+        if (validateEmail(form.email) && validateName(form.name)) {
+            sendMail(form)
         }
     }
 
@@ -100,12 +133,12 @@ export function ContactForm() {
                             autoComplete="name"
                         />
                         <FormField
-                            id="mail"
+                            id="email"
                             label="Mail:"
                             placeholder="mail@info.com"
                             required={true}
                             type="email"
-                            value={form.mail}
+                            value={form.email}
                             onChange={onInputChange}
                             autoComplete="mail"
                         />
@@ -123,6 +156,16 @@ export function ContactForm() {
                                 onChange={onInputChange}
                                 autoComplete='off'
                             />
+                        </div>
+
+                        <div className="checkbox">
+                            <input
+                                type="checkbox"
+                                id="privacyCheck"
+                                checked={agreed}
+                                onChange={onCheckboxChange}
+                            />
+                            <Label>Bitte bestätigen sie vor dem Absenden die <a href="#">Datenschutzrichtlinie</a></Label>
                         </div>
                         <Button disabled={disabled} type="submit" style={{ marginTop: '16px' }}>Send</Button>
                     </form>
