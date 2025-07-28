@@ -95,7 +95,7 @@ export function ContactForm() {
         <>
             <ToastContainer position="top-end" className="p-3">
                 <OwnToast
-                    autohide
+                    autohide={!isTestEnvironment}
                     delay={3000}
                     show={showSuccess}
                     onClose={handleCloseSuccess}
