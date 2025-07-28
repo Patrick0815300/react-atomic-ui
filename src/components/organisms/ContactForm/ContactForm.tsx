@@ -158,14 +158,14 @@ export function ContactForm() {
                             />
                         </div>
 
-                        <div className="checkbox">
+                        <div className='checkbox'>
                             <input
                                 type="checkbox"
                                 id="privacyCheck"
                                 checked={agreed}
                                 onChange={onCheckboxChange}
                             />
-                            <Label>Bitte bestätigen sie vor dem Absenden die <a href="#">Datenschutzrichtlinie</a></Label>
+                            <Label htmlFor='privacyCheck' style={{ marginBottom: '0' }}>Bitte bestätigen sie vor dem Absenden die <a href="#">Datenschutzrichtlinie</a></Label>
                         </div>
                         <Button disabled={disabled} type="submit" style={{ marginTop: '16px' }}>Send</Button>
                     </form>
