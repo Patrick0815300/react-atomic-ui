@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import './Carousel.module.css'
+import './Carousel.modules.css'
 
 export function OwnCarousel() {
     const responsive = {

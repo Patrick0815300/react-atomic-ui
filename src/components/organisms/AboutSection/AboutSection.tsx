@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Picture } from '../../atoms'
-import styles from './AboutSection.module.css'
+import './AboutSection.modules.css'
 
 type StoryProp = {
     title: string;
@@ -28,18 +28,18 @@ export function AboutSection({ members, storys, imageHistory, altImgHistory, hea
     return (
         <>
             <section>
-                <div className={styles.header}>
+                <div className={'header'}>
                     <h1>{headline || 'Headline'}</h1>
                     <p>{subheadline || 'Subheadline'}</p>
                 </div>
-                <div className={styles.historyContainer}>
+                <div className={'historyContainer'}>
                     <Picture
                         srcBase={imageHistory}
                         alt={altImgHistory}
-                        className={styles.historyPicture}
-                        imageClassName={styles.heroImage}
+                        className={'historyPicture'}
+                        imageClassName={'heroImage'}
                     />
-                    <div className={styles.cardContainer}>
+                    <div className={'cardContainer'}>
                         {
                             storys.map((story, index) => (
                                 <Card key={index}>
@@ -52,22 +52,22 @@ export function AboutSection({ members, storys, imageHistory, altImgHistory, hea
 
                     </div>
                 </div>
-                <div className={styles.teamContainer}>
+                <div className={'teamContainer'}>
                     <Card>
-                        <div className={styles.teamHeader}>
+                        <div className={'teamHeader'}>
                             <h2>Erlebe unser Team</h2>
                             <span>Die  träger unseres Unternehmens</span>
                         </div>
 
-                        <div className={styles.teamMembers}>
+                        <div className={'teamMembers'}>
                             {
                                 members.map((member, index) => (
-                                    <div key={index} className={styles.member}>
+                                    <div key={index} className={'member'}>
                                         <Picture
                                             srcBase={member.imageSrc}
                                             alt={member.name}
-                                            className={styles.teamImage}
-                                            imageClassName={styles.memberImage}
+                                            className={'teamImage'}
+                                            imageClassName={'memberImage'}
                                         />
                                         <span><strong>{member.name}</strong></span>
                                         <span>{member.position}</span>
