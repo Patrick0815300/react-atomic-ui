@@ -1,5 +1,5 @@
 import SearchBar from "../../moleculess/SearchBar/SearchBar";
-import styles from './Header.module.css'
+import './Header.module.css'
 
 export function Header() {
     const links = [
