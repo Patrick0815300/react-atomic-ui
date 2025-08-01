@@ -13,7 +13,6 @@ type AccordionMoleculeProps = {
     array: AccordionItem[];
 };
 
-
 const SingleItem = ({ eventKey, headerTitle, bodyText, itemProps, headerProps, bodyProps }: AccordionItem & { eventKey: string }) => (
     <Accordion.Item eventKey={eventKey} {...itemProps}>
         <Accordion.Header {...headerProps}>{headerTitle}</Accordion.Header>
@@ -34,6 +33,5 @@ const AccordionMolecule = ({ array }: AccordionMoleculeProps) => (
         ))}
     </Accordion>
 );
-
 
 export default AccordionMolecule
