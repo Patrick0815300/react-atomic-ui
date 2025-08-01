@@ -3,14 +3,10 @@ import { FormField } from '../../moleculess'
 import { Button, Label, Card, OwnToast } from '../../atoms'
 import { ToastContainer } from 'react-bootstrap'
 import inputStyles from '../../atoms/Input/Input.module.css'
+import { sendMail } from '../../../utils/sendMail.ts'
 import './ContactForm.modules.css'
 
 
-type ContactForm = {
-    name: string;
-    email: string;
-    message: string;
-};
 
 export function ContactForm() {
     const [form, setForm] = useState({
@@ -29,7 +25,6 @@ export function ContactForm() {
     const formRef = useRef<HTMLFormElement | null>(null);
 
     const isTestEnvironment = () => process.env.NODE_ENV === 'test';
-    const endpoint = 'https://patrick-nigrin.dev/sendMail.php';
 
     const handleButtonDisable = useEffect(() => {
         if (validateEmail(form.email) && validateName(form.name)) {
@@ -47,37 +42,19 @@ export function ContactForm() {
         setForm({ ...form, [stateProp]: value })
     }
 
-    async function sendMail(payload: ContactForm): Promise<string> {
-        try {
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const data = await response.text();
-
-            if (!response.ok) {
-                setShowError(true);
-                throw new Error(data || 'Fehler beim Senden');
-            }
-            setDisabled(true)
-            setShowSuccess(true);
-            setForm({ name: '', email: '', message: '' });
-            setAgreed(false)
-            return data;
-        } catch (error) {
-            setErrorMessage(errorMessage);
-            throw error;
-        }
-    }
-
     const onSubmitChange = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (validateEmail(form.email) && validateName(form.name)) {
-            sendMail(form)
+            try {
+                await sendMail(form);
+                setDisabled(true);
+                setShowSuccess(true);
+                setForm({ name: '', email: '', message: '' });
+                setAgreed(false);
+            } catch (error: any) {
+                setErrorMessage(error.message || 'Fehler beim Senden');
+                setShowError(true);
+            }
         }
     }
 
