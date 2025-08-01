@@ -1,4 +1,5 @@
 import React from 'react';
+import './Picture.modules.css'
 
 type PictureProps = {
     srcBase: string;
