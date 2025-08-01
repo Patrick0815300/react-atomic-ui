@@ -2,7 +2,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { Star, StarFill } from 'react-bootstrap-icons'
 import { Card, Picture } from '../../atoms'
-import styles from './Reviews.module.css'
+import './Reviews.modules.css'
 
 type Review = {
     name: string;
@@ -28,16 +28,16 @@ export function Reviews({ reviews }: ReviewsProps) {
         <>
             <section>
                 <h2>Reviews</h2>
-                <div className={styles.reviewContainer}>
+                <div className={'review-container'}>
                     {
                         reviews.map((review, index) => (
-                            <Card key={index} className={styles.cardStyle}>
-                                <div className={styles.customer}>
+                            <Card key={index} className={'card-style'}>
+                                <div className={'customer'}>
                                     <Picture
                                         srcBase={review.imgSrc}
                                         alt={`Bild von ${review.name}`}
-                                        className={styles.pictureCustomer}
-                                        imageClassName={styles.imageCustomer}
+                                        className={'picture-customer'}
+                                        imageClassName={'image-customer'}
                                     />
                                     <div>
                                         <p className='mb-0'><strong>{review.name}</strong></p>
@@ -45,7 +45,7 @@ export function Reviews({ reviews }: ReviewsProps) {
                                     </div>
 
                                 </div>
-                                <div className={styles.stars}>
+                                <div className={'stars'}>
                                     {
                                         Array.from({ length: review.stars }).map((_, i) => (
                                             <StarFill key={i} size={24} style={{ fill: 'gold' }} />
