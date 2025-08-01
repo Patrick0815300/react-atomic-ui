@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Input.module.css';
+import './Input.modules.css';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;
@@ -37,7 +37,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             readOnly={readOnly}
             autoComplete={autoComplete}
             ref={ref}
-            className={`${styles.input} ${className}`}
+            className={`${'input'} ${className}`}
             {...props}
         />
     )
