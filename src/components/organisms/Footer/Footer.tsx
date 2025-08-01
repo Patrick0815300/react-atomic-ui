@@ -1,5 +1,5 @@
 import { Instagram, Linkedin, Google, CCircle } from 'react-bootstrap-icons'
-import styles from './Footer.module.css'
+import './Footer.modules.css'
 
 type InformationsProps = {
     companyName?: string;
@@ -28,14 +28,14 @@ export function Footer({ informations }: FooterProps) {
     return (
         <>
             <footer>
-                <div className={styles.informationContainer}>
+                <div className={'informationContainer'}>
                     <div>
                         <address>
                             <strong>{informations.companyName}</strong><br />
                             {informations.address}<br />
                             <a href="tel:{informations.companyName}">{informations.phone}</a><br />
                             <a href={`mailto:${informations.mail}`}>{informations.mail}</a>
-                            <div className={styles.socials}>
+                            <div className={'socials'}>
                                 {socials.map(({ key, Icon }) => (
                                     informations[key] ? (
                                         <a href={informations[key]} key={key} target="_blank" rel="noopener noreferrer">
@@ -45,27 +45,27 @@ export function Footer({ informations }: FooterProps) {
                                 ))}
                             </div>
                         </address>
-                        <span className={styles.footerClaimer}>{informations.claimer}</span>
+                        <span className={'footerClaimer'}>{informations.claimer}</span>
 
                     </div>
 
-                    <div className={styles.navigationList}>
+                    <div className={'navigationList'}>
                         <p><strong>Navigation</strong></p>
                         <a href="/">Home</a>
                         <a href="#">Services</a>
                         <a href="#">Über uns</a>
                         <a href="#">Kontakt</a>
                     </div>
-                    <div className={styles.legal}>
+                    <div className={'legal'}>
                         <p><strong>Legal</strong></p>
                         <a href="#">Impressum</a>
                         <a href="#">Datenschutzerklärung</a>
                     </div>
                 </div>
-                <div className={styles.bottomLine}>
+                <div className={'bottomLine'}>
                     <span><CCircle /> 2025 Innovate Solutions. All rights reserved</span>
                 </div>
-            </footer>
+            </footer >
         </>
     )
 }
