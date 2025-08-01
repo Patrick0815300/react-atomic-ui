@@ -1,5 +1,5 @@
 import SearchBar from "../../moleculess/SearchBar/SearchBar";
-import styles from './Header.module.css'
+import './Header.modules.css'
 
 export function Header() {
     const links = [
@@ -20,8 +20,8 @@ export function Header() {
     return (
         <>
             <header>
-                <a href="/"><div className={styles.logo}>Logo</div></a>
-                <div className={styles.links}>
+                <a href="/"><div className={'logo'}>Logo</div></a>
+                <div className={'links'}>
                     {
                         links.map((l, i) => {
                             return <a
@@ -39,7 +39,7 @@ export function Header() {
                     name="headerInput"
                     placeholder=""
                     buttonLabel="Suchen"
-                    inputClassName={styles.headerInput}
+                    inputClassName={'header-input'}
                 />
             </header>
         </>
